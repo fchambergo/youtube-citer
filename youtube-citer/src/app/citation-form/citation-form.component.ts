@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { YoutubeDataAPI } from '../shared/youtube-data-api.service';
 
 @Component({
   selector: 'app-citation-form',
@@ -7,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CitationFormComponent implements OnInit {
 
-  constructor() { }
+  constructor(public service: YoutubeDataAPI) { }
+
+  getVideoInfo(id: string){
+    this.service.getVideoInfo(id).subscribe(info => {
+      console.log(info);
+    })
+  }
 
   ngOnInit(): void {
-
+    this.getVideoInfo("P3ZQKxZhAYA");
   }
 
 }
