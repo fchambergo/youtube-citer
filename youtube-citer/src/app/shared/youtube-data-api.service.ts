@@ -1,5 +1,6 @@
 import { Component, OnInit, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root'})
 export class YoutubeDataAPI {
@@ -14,6 +15,11 @@ export class YoutubeDataAPI {
       'Content-Type': "application/json"
     });
 
-    return this.http.get<any>(this.baseUrl + 'videos?part=snippet&id=' + id + '&key=' + this.API_KEY, { headers: headers });
+    return this.http.get<any>(this.baseUrl + 'videos?part=snippet&id=' + id + '&key=' + this.API_KEY, 
+      { headers: headers }
+      ).pipe(
+          map(
+            resp => resp.items[0].snippet as any
+          ));
   }
 }
