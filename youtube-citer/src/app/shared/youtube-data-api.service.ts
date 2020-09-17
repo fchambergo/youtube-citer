@@ -1,13 +1,14 @@
 import { Component, OnInit, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({ providedIn: 'root'})
 export class YoutubeDataAPI {
 
   constructor(public http: HttpClient) { }
 
-  API_KEY: string = "AIzaSyABqlR07Xv1sI89Mx-WdBB72-C8h2ucGiU";
+  API_KEY: string = environment.API_KEY;
   baseUrl: string = "https://www.googleapis.com/youtube/v3/videos";
 
   getVideoInfo(id: string) {
