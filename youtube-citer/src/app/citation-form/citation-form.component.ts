@@ -11,6 +11,8 @@ import { YoutubeVideoData } from '../shared/youtube-video-data.model';
 export class CitationFormComponent implements OnInit {
   submitForm: FormGroup;
   videoData: YoutubeVideoData;
+  id: string;
+  match: boolean = null;
 
   constructor(public service: YoutubeDataAPI,
     public fb: FormBuilder) {
@@ -25,7 +27,8 @@ export class CitationFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.submitForm.value);
+    this.id = this.findVideoId(this.submitForm.value.link);
+    this.getVideoInfo(this.id);
   }
 
   private createForm(){
@@ -35,8 +38,27 @@ export class CitationFormComponent implements OnInit {
     });
   }
 
+    //This method finds the video id from the url link using regex
+  private findVideoId(url: string): string {
+    //regex setup
+    const regexString: string = "^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#\&\?]*).*";
+    var regex = new RegExp(regexString);
+
+    var id: string = "";
+
+    //find whether the regex finds a match in the given url link
+    if(regex.test(url)){
+      this.match = true;
+      let result = regex.exec(url);
+      id = result[result.length - 1];
+    } else {
+      this.match = false;
+    }
+
+    return id;
+  }
+
   ngOnInit(): void {
-    this.getVideoInfo("P3ZQKxZhAYA");
     this.createForm();
   }
 
