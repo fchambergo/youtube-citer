@@ -1,0 +1,8 @@
+<div class="card" style="display: inline-block; width: 100%;">
+    <img src="{{videoData?.thumbnails?.maxres?.url}}" alt="" style="width: 250px; height: 180px; float: left;">
+    <div class="card-body" style="float: left;" >
+        <h5 class="card-title">{{ videoData?.title }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ videoData?.channelTitle }}</h6>
+        <p class="card-text"><small class="text-muted">{{ videoData?.publishedAt | date: 'fullDate' }}</small></p>
+    </div>
+</div>

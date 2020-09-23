@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { YoutubeVideoData } from 'src/app/shared/youtube-video-data.model';
 
 @Component({
   selector: 'app-display-video-info',
@@ -7,12 +8,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./display-video-info.component.css']
 })
 export class DisplayVideoInfo implements OnInit {
-  submitForm: FormGroup;
-  id: string;
-  match: boolean = null;
+  @Input() videoData: YoutubeVideoData;
 
-  constructor(
-    public fb: FormBuilder) {
+  constructor() {
    }
 
   ngOnInit(): void {
