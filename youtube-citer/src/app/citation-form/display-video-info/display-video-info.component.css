@@ -1,0 +1,14 @@
+.card {
+    display: inline-block;
+    width: 100%;
+}
+
+.card-body {
+    float: left;
+}
+
+.thumbnail {
+    width: 250px;
+    height: 180px;
+    float: left;
+}
