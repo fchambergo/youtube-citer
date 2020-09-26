@@ -25,3 +25,6 @@
         </div>
     </div>
 </form>
+<div class="video-info" *ngIf="match == true">
+    <app-display-video-info [videoData]="videoData"></app-display-video-info>
+</div>
