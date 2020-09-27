@@ -8,12 +8,14 @@ import { CitationFormComponent } from './citation-form/citation-form.component';
 import { YoutubeDataAPI } from './shared/youtube-data-api.service';
 import { HttpClientModule } from '@angular/common/http';
 import { DisplayVideoInfo } from './citation-form/display-video-info/display-video-info.component';
+import { DisplayCitation } from './citation-form/display-citation/display-citation.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CitationFormComponent,
-    DisplayVideoInfo
+    DisplayVideoInfo,
+    DisplayCitation
   ],
   imports: [
     BrowserModule,

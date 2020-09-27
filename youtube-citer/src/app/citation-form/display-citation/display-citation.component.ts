@@ -2,11 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { YoutubeVideoData } from 'src/app/shared/youtube-video-data.model';
 
 @Component({
-  selector: 'app-display-video-info',
-  templateUrl: './display-video-info.component.html',
-  styleUrls: ['./display-video-info.component.css']
+  selector: 'app-display-citation',
+  templateUrl: './display-citation.component.html',
+  styleUrls: ['./display-citation.component.css']
 })
-export class DisplayVideoInfo implements OnInit {
+export class DisplayCitation implements OnInit {
   @Input() videoData: YoutubeVideoData;
 
   constructor() {
