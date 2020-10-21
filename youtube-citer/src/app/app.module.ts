@@ -9,6 +9,7 @@ import { YoutubeDataAPI } from './shared/youtube-data-api.service';
 import { HttpClientModule } from '@angular/common/http';
 import { DisplayVideoInfo } from './citation-form/display-video-info/display-video-info.component';
 import { DisplayCitation } from './citation-form/display-citation/display-citation.component';
+import { CitationStylesService } from './shared/citation-styles.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { DisplayCitation } from './citation-form/display-citation/display-citati
     HttpClientModule,
     CommonModule
   ],
-  providers: [YoutubeDataAPI],
+  providers: [YoutubeDataAPI, CitationStylesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

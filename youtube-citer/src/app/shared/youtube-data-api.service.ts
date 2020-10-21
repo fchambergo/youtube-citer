@@ -1,7 +1,9 @@
 import { Component, OnInit, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { Observable, zip } from 'rxjs';
+import { YoutubeVideoData } from './youtube-video-data.model';
 
 @Injectable({ providedIn: 'root'})
 export class YoutubeDataAPI {
@@ -11,9 +13,9 @@ export class YoutubeDataAPI {
   API_KEY: string = environment.API_KEY;
   baseUrl: string = "https://www.googleapis.com/youtube/v3/videos";
 
-  getVideoInfo(id: string) {
+  getVideoInfo(id: string): Observable<YoutubeVideoData> {
     let params = new HttpParams();
-    params = params.set('part', 'snippet').set('id', id).set('key', this.API_KEY);
+    params = params.set('part', 'snippet').append('part', 'contentDetails').set('id', id).set('key', this.API_KEY);
 
     let headers = new HttpHeaders({
       'Content-Type': "application/json"
@@ -23,7 +25,7 @@ export class YoutubeDataAPI {
       { headers: headers }
       ).pipe(
           map(
-            resp => resp.items[0].snippet as any
+            resp => resp.items[0] as any
           ));
   }
 }

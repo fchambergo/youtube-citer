@@ -1,6 +1,15 @@
 export interface YoutubeVideoData {
-    channelTitle: string;
-    publishedAt: Date;
-    title: string;
+    snippet: videoSnippet;
+    contentDetails: videoContentDetails;
+}
+
+interface videoContentDetails {
+    duration: string; //length
+}
+
+interface videoSnippet {
+    channelTitle: string; //author
+    publishedAt: Date; //date
+    title: string; //title
     thumbnails: object;
 }

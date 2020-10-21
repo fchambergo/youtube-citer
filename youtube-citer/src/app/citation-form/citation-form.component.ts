@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { YoutubeDataAPI } from '../shared/youtube-data-api.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { YoutubeVideoData } from '../shared/youtube-video-data.model';
+import { CitationStylesService } from '../shared/citation-styles.service';
 
 @Component({
   selector: 'app-citation-form',
@@ -11,24 +12,34 @@ import { YoutubeVideoData } from '../shared/youtube-video-data.model';
 export class CitationFormComponent implements OnInit {
   submitForm: FormGroup;
   videoData: YoutubeVideoData;
+  format: string;
   id: string;
+  link: string;
   match: boolean = null;
+  citation: string;
 
   constructor(public service: YoutubeDataAPI,
+    public citationService: CitationStylesService,
     public fb: FormBuilder) {
    }
+
+  onSubmit() {
+    this.link = this.submitForm.value.link;
+    this.id = this.findVideoId(this.submitForm.value.link);
+    if(this.submitForm.valid){
+      this.getVideoInfo(this.id);
+      this.getCitation();
+    }
+    console.log(this.videoData);
+  }
 
   getVideoInfo(id: string){
     this.service.getVideoInfo(id).subscribe(info => {
       this.videoData = info;
+      this.citationService.videoData = info;
       console.log(this.videoData);
       
     })
-  }
-
-  onSubmit() {
-    this.id = this.findVideoId(this.submitForm.value.link);
-    this.getVideoInfo(this.id);
   }
 
   private createForm(){
@@ -58,8 +69,13 @@ export class CitationFormComponent implements OnInit {
     return id;
   }
 
+  getCitation() {
+    this.citation = this.citationService.getCitationStyleFormat("MLA", this.videoData, this.link);
+  }
+
   ngOnInit(): void {
     this.createForm();
+    this.citationService.loadCitationStyles();
   }
 
 }
