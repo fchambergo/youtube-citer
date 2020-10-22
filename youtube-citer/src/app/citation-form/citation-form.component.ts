@@ -3,6 +3,7 @@ import { YoutubeDataAPI } from '../shared/youtube-data-api.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { YoutubeVideoData } from '../shared/youtube-video-data.model';
 import { CitationStylesService } from '../shared/citation-styles.service';
+import { CitationStyles } from '../shared/citation-styles.model';
 
 @Component({
   selector: 'app-citation-form',
@@ -12,6 +13,7 @@ import { CitationStylesService } from '../shared/citation-styles.service';
 export class CitationFormComponent implements OnInit {
   submitForm: FormGroup;
   videoData: YoutubeVideoData;
+  citationStyles: CitationStyles[];
   format: string;
   id: string;
   link: string;
@@ -40,6 +42,11 @@ export class CitationFormComponent implements OnInit {
       console.log(this.videoData);
       
     })
+  }
+
+  getCitationStyles(){
+    this.citationStyles = this.citationService.getCitationStyles();
+    console.log(this.citationStyles);
   }
 
   private createForm(){
@@ -74,8 +81,9 @@ export class CitationFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.createForm();
     this.citationService.loadCitationStyles();
+    this.getCitationStyles();
+    this.createForm();
   }
 
 }

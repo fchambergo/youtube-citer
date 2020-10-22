@@ -22,7 +22,7 @@ export class CitationStylesService {
   }
 
   getCitationStyles() {
-    return [...this.citationStyles];
+    return this.citationStyles;
   }
 
   getCitationStyleFormat(citation: string, videoData: YoutubeVideoData, link: string) {
