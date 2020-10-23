@@ -19,12 +19,12 @@ export class DisplayCitation implements OnInit {
   }
 
 
-  getCitation(){
-    this.citation = this.citationService.getCitationStyleFormat('MLA', this.videoData, this.link);
-  }
+  // getCitation(){
+  //   this.citation = this.citationService.getCitationStyleFormat('MLA', this.videoData, this.link);
+  // }
   
   ngOnInit(): void {
-    this.getCitation();
+    // this.getCitation();
   }
 
 }

@@ -25,7 +25,7 @@ export class YoutubeDataAPI {
       { headers: headers }
       ).pipe(
           map(
-            resp => resp.items[0] as any
+            (resp: any) => resp.items[0]
           ));
   }
 }

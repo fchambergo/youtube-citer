@@ -8,7 +8,6 @@ import { YoutubeVideoData } from './youtube-video-data.model';
 @Injectable({ providedIn: 'root'})
 export class CitationStylesService {
   citationStyles: CitationStyles[] = [];
-  videoData: YoutubeVideoData;
 
   constructor(public http: HttpClient) { }
 
@@ -28,13 +27,13 @@ export class CitationStylesService {
   getCitationStyleFormat(citation: string, videoData: YoutubeVideoData, link: string) {
     switch(citation) {
       case "MLA":
-        return `${this.videoData?.snippet?.title} . Youtube, uploaded by ${this.videoData?.snippet?.channelTitle}, ${this.videoData?.snippet?.publishedAt}, ${link}`;
+        return `${videoData?.snippet?.title} . Youtube, uploaded by ${videoData?.snippet?.channelTitle}, ${videoData?.snippet?.publishedAt}, ${link}`;
       case "APA":
-        return `${this.videoData?.snippet?.channelTitle}. (${this.videoData?.snippet?.publishedAt}). ${this.videoData?.snippet?.title} [Video file]. Retrieved from ${link}`;
+        return `${videoData?.snippet?.channelTitle}. (${videoData?.snippet?.publishedAt}). ${videoData?.snippet?.title} [Video file]. Retrieved from ${link}`;
       case "Chicago":
-        return `"${this.videoData?.snippet?.title}," Youtube video, ${this.videoData?.contentDetails?.duration }, posted by "${this.videoData?.snippet?.channelTitle}," ${this.videoData?.snippet?.publishedAt}, ${link}`
+        return `"${videoData?.snippet?.title}," Youtube video, ${videoData?.contentDetails?.duration }, posted by "${videoData?.snippet?.channelTitle}," ${videoData?.snippet?.publishedAt}, ${link}`
       case "Harvard":
-        return `${this.videoData?.snippet?.title} (${this.videoData?.snippet?.publishedAt}) Youtube video, added by ${this.videoData?.snippet?.channelTitle} [Online]. Available at ${link} [Accessed today]`
+        return `${videoData?.snippet?.title} (${videoData?.snippet?.publishedAt}) Youtube video, added by ${videoData?.snippet?.channelTitle} [Online]. Available at ${link} [Accessed today]`
     }
   }
 }

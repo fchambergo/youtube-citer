@@ -1,6 +1,7 @@
-export interface YoutubeVideoData {
+export class YoutubeVideoData {
     snippet: videoSnippet;
     contentDetails: videoContentDetails;
+    link: string;
 }
 
 interface videoContentDetails {

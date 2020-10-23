@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { YoutubeVideoData } from '../shared/youtube-video-data.model';
 import { CitationStylesService } from '../shared/citation-styles.service';
 import { CitationStyles } from '../shared/citation-styles.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-citation-form',
@@ -12,13 +13,14 @@ import { CitationStyles } from '../shared/citation-styles.model';
 })
 export class CitationFormComponent implements OnInit {
   submitForm: FormGroup;
-  videoData: YoutubeVideoData;
+  videoData: YoutubeVideoData = new YoutubeVideoData();
   citationStyles: CitationStyles[];
   format: string;
   id: string;
   link: string;
   match: boolean = null;
   citation: string;
+  isLoading: boolean = false;
 
   constructor(public service: YoutubeDataAPI,
     public citationService: CitationStylesService,
@@ -30,18 +32,25 @@ export class CitationFormComponent implements OnInit {
     this.id = this.findVideoId(this.submitForm.value.link);
     if(this.submitForm.valid){
       this.getVideoInfo(this.id);
-      this.getCitation();
+      this.videoData.link = this.submitForm.value.link;
     }
-    console.log(this.videoData);
   }
 
   getVideoInfo(id: string){
-    this.service.getVideoInfo(id).subscribe(info => {
-      this.videoData = info;
-      this.citationService.videoData = info;
+    this.isLoading = true;;
+    this.service.getVideoInfo(id).subscribe(_info => {
+      this.videoData = _info;
       console.log(this.videoData);
       
-    })
+    },
+    (error) => {
+      console.log(error);
+    },
+    () => {
+      this.getCitation(this.submitForm.value.citationStyle);
+      this.isLoading = false;
+    }
+    )
   }
 
   getCitationStyles(){
@@ -76,8 +85,8 @@ export class CitationFormComponent implements OnInit {
     return id;
   }
 
-  getCitation() {
-    this.citation = this.citationService.getCitationStyleFormat("MLA", this.videoData, this.link);
+  getCitation(style: string) {
+    this.citation = this.citationService.getCitationStyleFormat(style, this.videoData, this.link);
   }
 
   ngOnInit(): void {
