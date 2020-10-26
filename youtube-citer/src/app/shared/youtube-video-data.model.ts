@@ -1,7 +1,8 @@
 export class YoutubeVideoData {
     snippet: videoSnippet;
     contentDetails: videoContentDetails;
-    link: string;
+    link: string; //url link
+    lastAccessed: Date; //date last accessed
 }
 
 interface videoContentDetails {

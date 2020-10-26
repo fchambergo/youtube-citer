@@ -15,7 +15,5 @@
 </form>
 <div class="video-info" *ngIf="match == true">
     <app-display-video-info *ngIf="!isLoading" [videoData]="videoData" [format]="format"></app-display-video-info>
-    <app-display-citation [videoData]="videoData" [link]="link"></app-display-citation>
+    <app-display-citation [videoData]="videoData" [style]="style"></app-display-citation>
 </div>
-
-<p>{{citation}}</p>

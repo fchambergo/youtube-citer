@@ -15,11 +15,11 @@ export class CitationFormComponent implements OnInit {
   submitForm: FormGroup;
   videoData: YoutubeVideoData = new YoutubeVideoData();
   citationStyles: CitationStyles[];
-  format: string;
   id: string;
   link: string;
   match: boolean = null;
   citation: string;
+  style: string;
   isLoading: boolean = false;
 
   constructor(public service: YoutubeDataAPI,
@@ -28,25 +28,24 @@ export class CitationFormComponent implements OnInit {
    }
 
   onSubmit() {
-    this.link = this.submitForm.value.link;
-    this.id = this.findVideoId(this.submitForm.value.link);
     if(this.submitForm.valid){
+      this.id = this.findVideoId(this.submitForm.value.link);
+      this.style = this.submitForm.value.citationStyle;
       this.getVideoInfo(this.id);
-      this.videoData.link = this.submitForm.value.link;
     }
   }
 
   getVideoInfo(id: string){
     this.isLoading = true;;
-    this.service.getVideoInfo(id).subscribe(_info => {
-      this.videoData = _info;
-      console.log(this.videoData);
-      
+    this.service.getVideoInfo(id).subscribe(info => {
+      this.videoData = info;      
     },
     (error) => {
       console.log(error);
     },
     () => {
+      this.videoData.lastAccessed = new Date;
+      this.videoData.link = this.submitForm.value.link;
       this.getCitation(this.submitForm.value.citationStyle);
       this.isLoading = false;
     }
@@ -55,7 +54,6 @@ export class CitationFormComponent implements OnInit {
 
   getCitationStyles(){
     this.citationStyles = this.citationService.getCitationStyles();
-    console.log(this.citationStyles);
   }
 
   private createForm(){
@@ -86,7 +84,7 @@ export class CitationFormComponent implements OnInit {
   }
 
   getCitation(style: string) {
-    this.citation = this.citationService.getCitationStyleFormat(style, this.videoData, this.link);
+    this.citation = this.citationService.getCitationStyleFormat(style, this.videoData);
   }
 
   ngOnInit(): void {

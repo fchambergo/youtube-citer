@@ -1,7 +1,10 @@
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title">Citation</h5>
+        <h5 class="card-title">{{ style }}</h5>
         <h6 class="card-subtitle mb-2 text-muted">Citation Format</h6>
-        <p>{{citation}}</p>
+        <p *ngIf="style === 'MLA'">MLA "{{ videoData?.snippet?.title }}." <i>Youtube</i>, uploaded by {{ videoData?.snippet?.channelTitle }}, {{ videoData?.snippet?.publishedAt | date:'d MMM. y' }}, {{ videoData?.link }}</p>
+        <p *ngIf="style === 'APA'">APA [{{ videoData?.snippet?.channelTitle }}]. ({{ videoData?.snippet?.publishedAt | date:'y, MMMM d' }}). <i>{{videoData?.snippet?.title }}</i> [Video]. Youtube {{ videoData?.link }}</p>
+        <p *ngIf="style === 'Chicago'">Chicago  "{{ videoData?.snippet?.title }}." {{ videoData?.snippet?.channelTitle }}. Published on {{ videoData?.snippet?.publishedAt | date: 'longDate' }}. Youtube video, {{ videoData?.contentDetails?.duration }}. {{ videoData?.link }}</p>
+        <p *ngIf="style === 'Harvard'">Harvard <i>{{ videoData?.snippet?.title }}</i> ({{ videoData?.snippet?.publishedAt | date:'y' }}) Youtube video, added by {{ videoData?.snippet?.channelTitle }} [Online]. Available at {{ videoData?.link }} [Accessed {{ videoData?.lastAccessed | date:'d MMMM y' }}]</p>
     </div>
 </div>

@@ -24,16 +24,16 @@ export class CitationStylesService {
     return this.citationStyles;
   }
 
-  getCitationStyleFormat(citation: string, videoData: YoutubeVideoData, link: string) {
+  getCitationStyleFormat(citation: string, videoData: YoutubeVideoData) {
     switch(citation) {
       case "MLA":
-        return `${videoData?.snippet?.title} . Youtube, uploaded by ${videoData?.snippet?.channelTitle}, ${videoData?.snippet?.publishedAt}, ${link}`;
+        return `${videoData?.snippet?.title} . Youtube, uploaded by ${videoData?.snippet?.channelTitle}, ${videoData?.snippet?.publishedAt}, ${videoData?.link}`;
       case "APA":
-        return `${videoData?.snippet?.channelTitle}. (${videoData?.snippet?.publishedAt}). ${videoData?.snippet?.title} [Video file]. Retrieved from ${link}`;
+        return `${videoData?.snippet?.channelTitle}. (${videoData?.snippet?.publishedAt}). ${videoData?.snippet?.title} [Video file]. Retrieved from ${videoData?.link}`;
       case "Chicago":
-        return `"${videoData?.snippet?.title}," Youtube video, ${videoData?.contentDetails?.duration }, posted by "${videoData?.snippet?.channelTitle}," ${videoData?.snippet?.publishedAt}, ${link}`
+        return `"${videoData?.snippet?.title}," Youtube video, ${videoData?.contentDetails?.duration }, posted by "${videoData?.snippet?.channelTitle}," ${videoData?.snippet?.publishedAt}, ${videoData?.link}`
       case "Harvard":
-        return `${videoData?.snippet?.title} (${videoData?.snippet?.publishedAt}) Youtube video, added by ${videoData?.snippet?.channelTitle} [Online]. Available at ${link} [Accessed today]`
+        return `${videoData?.snippet?.title} (${videoData?.snippet?.publishedAt}) Youtube video, added by ${videoData?.snippet?.channelTitle} [Online]. Available at ${videoData?.link} [Accessed today]`
     }
   }
 }
