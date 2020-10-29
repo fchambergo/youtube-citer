@@ -5,6 +5,7 @@ import { YoutubeVideoData } from '../shared/youtube-video-data.model';
 import { CitationStylesService } from '../shared/citation-styles.service';
 import { CitationStyles } from '../shared/citation-styles.model';
 import { BehaviorSubject } from 'rxjs';
+import moment from 'moment';
 
 @Component({
   selector: 'app-citation-form',
@@ -45,6 +46,7 @@ export class CitationFormComponent implements OnInit {
     },
     () => {
       this.videoData.lastAccessed = new Date;
+      this.videoData.contentDetails.duration = this.getTimestamp(moment.duration(this.videoData.contentDetails.duration).asMilliseconds());
       this.videoData.link = this.submitForm.value.link;
       this.getCitation(this.submitForm.value.citationStyle);
       this.isLoading = false;
@@ -81,6 +83,27 @@ export class CitationFormComponent implements OnInit {
     }
 
     return id;
+  }
+
+  private getTimestamp(milliseconds: number){
+    var minutesStr: string;
+    var secondsStr: string;
+
+    var seconds = Math.floor(milliseconds / 1000);
+    var minutes = Math.floor(seconds / 60);
+    var hours = 0;
+    if (minutes > 59) {
+      hours = Math.floor(minutes / 60);
+      minutes = minutes - (hours * 60);
+      minutesStr = (minutes >= 10) ? minutes.toString() : "0" + minutes;
+    }
+
+    seconds = Math.floor(seconds % 60) - 1;
+    secondsStr = (seconds >= 10) ? seconds.toString() : "0" + seconds;
+    if (hours != 0) {
+      return hours + ":" + minutesStr + ":" + secondsStr;
+    }
+    return minutes + ":" + secondsStr;
   }
 
   getCitation(style: string) {

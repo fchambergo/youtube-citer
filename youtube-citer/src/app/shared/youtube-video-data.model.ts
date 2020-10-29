@@ -6,7 +6,7 @@ export class YoutubeVideoData {
 }
 
 interface videoContentDetails {
-    duration: string; //length
+    duration: string | number; //length
 }
 
 interface videoSnippet {
