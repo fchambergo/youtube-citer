@@ -1,8 +1,8 @@
 <div class="card">
-    <img src="{{videoData?.thumbnails?.maxres?.url}}" alt="" class="thumbnail">
+    <img src="{{videoData?.snippet?.thumbnails?.maxres?.url}}" alt="" class="thumbnail">
     <div class="card-body">
-        <h5 class="card-title">{{ videoData?.title }}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">{{ videoData?.channelTitle }}</h6>
-        <p class="card-text"><small class="text-muted">{{ videoData?.publishedAt | date: 'fullDate' }}</small></p>
+        <h5 class="card-title">{{ videoData?.snippet?.title }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ videoData?.snippet?.channelTitle }}</h6>
+        <p class="card-text"><small class="text-muted">{{ videoData?.snippet?.publishedAt | date: 'fullDate' }}</small></p>
     </div>
 </div>

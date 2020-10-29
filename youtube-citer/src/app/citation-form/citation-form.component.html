@@ -2,19 +2,7 @@
     <div class="form-row">
         <div class="col-sm-2">
             <select id="inputState" class="form-control form-control-lg" formControlName="citationStyle">
-              <option selected>Citation Style</option>
-              <option>MLA</option>
-              <option>APA</option>
-              <option>Chicago</option>
-              <option>Harvard</option>
-              <option>Vancouver</option>
-              <option>IEEE</option>
-              <option>OSCALA</option>
-              <option>AMA</option>
-              <option>AAA</option>
-              <option>APSA</option>
-              <option>ACS</option>
-              <option>NLM</option>
+              <option *ngFor="let style of citationStyles" [value]="style.abbreviation">{{style.abbreviation}}</option>
             </select>
         </div>
         <div class="col-sm-10">
@@ -26,5 +14,6 @@
     </div>
 </form>
 <div class="video-info" *ngIf="match == true">
-    <app-display-video-info [videoData]="videoData"></app-display-video-info>
+    <app-display-video-info *ngIf="!isLoading" [videoData]="videoData" [format]="format"></app-display-video-info>
+    <app-display-citation [videoData]="videoData" [style]="style"></app-display-citation>
 </div>

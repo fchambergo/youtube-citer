@@ -1,0 +1,18 @@
+[
+    {
+        "abbreviation": "MLA",
+        "name": "Modern Language Association"
+    },
+    {
+        "abbreviation": "APA",
+        "name": "American Psychological Association"
+    },
+    {
+        "abbreviation": "Chicago",
+        "name": "Chicago Manual of Style"
+    },
+    {
+        "abbreviation": "Harvard",
+        "name": "Harvard"
+    }
+]

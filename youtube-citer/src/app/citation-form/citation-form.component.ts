@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { YoutubeDataAPI } from '../shared/youtube-data-api.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { YoutubeVideoData } from '../shared/youtube-video-data.model';
+import { CitationStylesService } from '../shared/citation-styles.service';
+import { CitationStyles } from '../shared/citation-styles.model';
+import { BehaviorSubject } from 'rxjs';
+import moment from 'moment';
 
 @Component({
   selector: 'app-citation-form',
@@ -10,25 +14,48 @@ import { YoutubeVideoData } from '../shared/youtube-video-data.model';
 })
 export class CitationFormComponent implements OnInit {
   submitForm: FormGroup;
-  videoData: YoutubeVideoData;
+  videoData: YoutubeVideoData = new YoutubeVideoData();
+  citationStyles: CitationStyles[];
   id: string;
+  link: string;
   match: boolean = null;
+  citation: string;
+  style: string;
+  isLoading: boolean = false;
 
   constructor(public service: YoutubeDataAPI,
+    public citationService: CitationStylesService,
     public fb: FormBuilder) {
    }
 
-  getVideoInfo(id: string){
-    this.service.getVideoInfo(id).subscribe(info => {
-      this.videoData = info;
-      console.log(this.videoData);
-      
-    })
+  onSubmit() {
+    if(this.submitForm.valid){
+      this.id = this.findVideoId(this.submitForm.value.link);
+      this.style = this.submitForm.value.citationStyle;
+      this.getVideoInfo(this.id);
+    }
   }
 
-  onSubmit() {
-    this.id = this.findVideoId(this.submitForm.value.link);
-    this.getVideoInfo(this.id);
+  getVideoInfo(id: string){
+    this.isLoading = true;;
+    this.service.getVideoInfo(id).subscribe(info => {
+      this.videoData = info;      
+    },
+    (error) => {
+      console.log(error);
+    },
+    () => {
+      this.videoData.lastAccessed = new Date;
+      this.videoData.contentDetails.duration = this.getTimestamp(moment.duration(this.videoData.contentDetails.duration).asMilliseconds());
+      this.videoData.link = this.submitForm.value.link;
+      this.getCitation(this.submitForm.value.citationStyle);
+      this.isLoading = false;
+    }
+    )
+  }
+
+  getCitationStyles(){
+    this.citationStyles = this.citationService.getCitationStyles();
   }
 
   private createForm(){
@@ -58,7 +85,34 @@ export class CitationFormComponent implements OnInit {
     return id;
   }
 
+  private getTimestamp(milliseconds: number){
+    var minutesStr: string;
+    var secondsStr: string;
+
+    var seconds = Math.floor(milliseconds / 1000);
+    var minutes = Math.floor(seconds / 60);
+    var hours = 0;
+    if (minutes > 59) {
+      hours = Math.floor(minutes / 60);
+      minutes = minutes - (hours * 60);
+      minutesStr = (minutes >= 10) ? minutes.toString() : "0" + minutes;
+    }
+
+    seconds = Math.floor(seconds % 60) - 1;
+    secondsStr = (seconds >= 10) ? seconds.toString() : "0" + seconds;
+    if (hours != 0) {
+      return hours + ":" + minutesStr + ":" + secondsStr;
+    }
+    return minutes + ":" + secondsStr;
+  }
+
+  getCitation(style: string) {
+    this.citation = this.citationService.getCitationStyleFormat(style, this.videoData);
+  }
+
   ngOnInit(): void {
+    this.citationService.loadCitationStyles();
+    this.getCitationStyles();
     this.createForm();
   }
 

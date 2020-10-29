@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { YoutubeVideoData } from 'src/app/shared/youtube-video-data.model';
 
 @Component({
@@ -7,7 +6,7 @@ import { YoutubeVideoData } from 'src/app/shared/youtube-video-data.model';
   templateUrl: './display-video-info.component.html',
   styleUrls: ['./display-video-info.component.css']
 })
-export class DisplayVideoInfo implements OnInit {
+export class DisplayVideoInfo implements OnInit, OnChanges {
   @Input() videoData: YoutubeVideoData;
 
   constructor() {
@@ -15,6 +14,10 @@ export class DisplayVideoInfo implements OnInit {
 
   ngOnInit(): void {
 
+  }
+
+  ngOnChanges(){
+    console.log(this.videoData);
   }
 
 }
