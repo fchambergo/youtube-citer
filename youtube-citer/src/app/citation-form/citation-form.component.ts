@@ -44,6 +44,7 @@ export class CitationFormComponent implements OnInit {
     }
     this.id = this.findVideoId(this.submitForm.value.link);
     this.style = this.submitForm.value.citationStyle;
+    console.log(this.submitForm)
     this.getVideoInfo(this.id);
   }
 

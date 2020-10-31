@@ -1,17 +1,26 @@
 <form [formGroup]="submitForm" (ngSubmit)="onSubmit()">
     <div class="form-row">
-        <div class="col-sm-2">
-            <select id="inputState" class="form-control form-control-lg" formControlName="citationStyle">
+        <div class="col-sm-3 mb-3">
+            <select id="inputState" 
+            class="custom-select" 
+            [ngClass]="{'is-invalid': submitForm.controls.citationStyle.invalid && submitForm.controls.citationStyle.touched }" 
+            formControlName="citationStyle">
+              <option value="null" disabled selected>Choose</option>
               <option *ngFor="let style of citationStyles" [value]="style.abbreviation">{{style.abbreviation}}</option>
             </select>
+            <div class="invalid-feedback">Select a Style</div>
         </div>
-        <div class="col-sm-10">
-            <div class="input-group-append">
-                <input id="citation-link" class="form-control form-control-lg" type="text" placeholder="Youtube Link" formControlName="link">
-                <button type="submit" class="btn btn-outline-secondary">Cite</button>
-            </div> 
+        <div class="col-sm-9 mb-3">
+            <input id="citation-link" 
+            class="form-control" 
+            [ngClass]="{'is-invalid': submitForm.controls.link.invalid && submitForm.controls.link.touched }" 
+            type="text" 
+            placeholder="Youtube Link" 
+            formControlName="link"> 
+            <div class="invalid-feedback">Enter a Youtube Link</div>
         </div>
     </div>
+    <button type="submit" class="btn btn-primary">Cite</button>
 </form>
 <div class="video-info" *ngIf="match == true">
     <app-display-video-info *ngIf="!isLoading" [videoData]="videoData" [format]="format"></app-display-video-info>
