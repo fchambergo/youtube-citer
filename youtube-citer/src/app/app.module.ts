@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { DisplayVideoInfo } from './citation-form/display-video-info/display-video-info.component';
 import { DisplayCitation } from './citation-form/display-citation/display-citation.component';
 import { CitationStylesService } from './shared/citation-styles.service';
+import { RegexService } from './shared/regex-service.helper';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { CitationStylesService } from './shared/citation-styles.service';
     HttpClientModule,
     CommonModule
   ],
-  providers: [YoutubeDataAPI, CitationStylesService],
+  providers: [YoutubeDataAPI, CitationStylesService, RegexService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
