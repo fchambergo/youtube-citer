@@ -4,10 +4,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { YoutubeVideoData } from '../shared/youtube-video-data.model';
 import { CitationStylesService } from '../shared/citation-styles.service';
 import { CitationStyles } from '../shared/citation-styles.model';
-import { BehaviorSubject } from 'rxjs';
 import moment from 'moment';
 import { RegexService } from '../shared/regex-service.helper';
-import { ignoreElements } from 'rxjs/operators';
 
 @Component({
   selector: 'app-citation-form',
@@ -23,9 +21,6 @@ export class CitationFormComponent implements OnInit {
   match: boolean = null;
   citation: string;
   style: string;
-  isLoading: boolean = false;
-  regexString: string;
-  regex: RegExp;
 
   constructor(public service: YoutubeDataAPI,
     public citationService: CitationStylesService,
@@ -49,7 +44,6 @@ export class CitationFormComponent implements OnInit {
   }
 
   getVideoInfo(id: string){
-    this.isLoading = true;;
     this.service.getVideoInfo(id).subscribe(info => {
       this.videoData = info;      
     },
@@ -61,7 +55,6 @@ export class CitationFormComponent implements OnInit {
       this.videoData.contentDetails.duration = this.getTimestamp(moment.duration(this.videoData.contentDetails.duration).asMilliseconds());
       this.videoData.link = this.submitForm.value.link;
       this.getCitation(this.submitForm.value.citationStyle);
-      this.isLoading = false;
     }
     )
   }
@@ -116,8 +109,6 @@ export class CitationFormComponent implements OnInit {
     this.citationService.loadCitationStyles();
     this.getCitationStyles();
     this.createForm();
-    this.regexString = "^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#\&\?]*).*";
-    this.regex = new RegExp(this.regexString);
   }
 
 }

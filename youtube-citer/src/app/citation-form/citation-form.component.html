@@ -22,7 +22,12 @@
     </div>
     <button type="submit" class="btn btn-primary">Cite</button>
 </form>
-<div class="video-info" *ngIf="match == true">
-    <app-display-video-info *ngIf="!isLoading" [videoData]="videoData" [format]="format"></app-display-video-info>
+
+<div class="alert alert-danger mt-3" *ngIf="match == false" role="alert">
+    Youtube Link was Invalid. Enter a valid Youtube URL
+</div>
+
+<div class="video-info" *ngIf="match">
+    <app-display-video-info *ngIf="match" [videoData]="videoData"></app-display-video-info>
     <app-display-citation [videoData]="videoData" [style]="style"></app-display-citation>
 </div>
