@@ -1,10 +1,21 @@
 button {
-    background-color: #F4D02D;
+    background-color: #025D8C;
     color: white;
-    border-color: #F4D02D;
-    padding: 7px 2rem 7px 2rem;
+    border-color: #2A8FBD;
+    padding: 10px 2rem 10px 2rem;
+}
+
+button:hover {
+    background-color: #2A8FBD;
+    border-color: #BAE4E5;
 }
 
 .video-info {
     margin-top: 2rem;
+}
+
+.alert-not-valid {
+    color: white;
+    background-color: #BB1D03;
+    border-color: #A50203;
 }
