@@ -4,8 +4,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { YoutubeVideoData } from '../shared/youtube-video-data.model';
 import { CitationStylesService } from '../shared/citation-styles.service';
 import { CitationStyles } from '../shared/citation-styles.model';
-import { BehaviorSubject } from 'rxjs';
 import moment from 'moment';
+import { RegexService } from '../shared/regex-service.helper';
 
 @Component({
   selector: 'app-citation-form',
@@ -21,23 +21,29 @@ export class CitationFormComponent implements OnInit {
   match: boolean = null;
   citation: string;
   style: string;
-  isLoading: boolean = false;
 
   constructor(public service: YoutubeDataAPI,
     public citationService: CitationStylesService,
+    public regexService: RegexService,
     public fb: FormBuilder) {
    }
 
   onSubmit() {
-    if(this.submitForm.valid){
-      this.id = this.findVideoId(this.submitForm.value.link);
-      this.style = this.submitForm.value.citationStyle;
-      this.getVideoInfo(this.id);
+    if(this.submitForm.invalid) {
+      return;
     }
+    this.match = this.regexService.isValidURL(this.submitForm.value.link);
+
+    if(this.match == false){
+      return;
+    }
+    this.id = this.findVideoId(this.submitForm.value.link);
+    this.style = this.submitForm.value.citationStyle;
+    console.log(this.submitForm)
+    this.getVideoInfo(this.id);
   }
 
   getVideoInfo(id: string){
-    this.isLoading = true;;
     this.service.getVideoInfo(id).subscribe(info => {
       this.videoData = info;      
     },
@@ -49,7 +55,6 @@ export class CitationFormComponent implements OnInit {
       this.videoData.contentDetails.duration = this.getTimestamp(moment.duration(this.videoData.contentDetails.duration).asMilliseconds());
       this.videoData.link = this.submitForm.value.link;
       this.getCitation(this.submitForm.value.citationStyle);
-      this.isLoading = false;
     }
     )
   }
@@ -67,21 +72,11 @@ export class CitationFormComponent implements OnInit {
 
     //This method finds the video id from the url link using regex
   private findVideoId(url: string): string {
-    //regex setup
-    const regexString: string = "^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#\&\?]*).*";
-    var regex = new RegExp(regexString);
-
     var id: string = "";
 
     //find whether the regex finds a match in the given url link
-    if(regex.test(url)){
-      this.match = true;
-      let result = regex.exec(url);
-      id = result[result.length - 1];
-    } else {
-      this.match = false;
-    }
-
+    let result = this.regexService.findResult(url);
+    id = result[result.length - 1];
     return id;
   }
 

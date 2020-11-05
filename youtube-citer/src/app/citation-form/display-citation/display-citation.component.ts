@@ -16,8 +16,13 @@ export class DisplayCitation implements OnInit {
   constructor() {
   }
   
-  ngOnInit(): void {
+  copyCitation(){
+    var citation = document.getElementById(this.style);
+    return citation.innerText;
+  }
 
+  ngOnInit(): void {
+    
   }
 
 }

@@ -17,7 +17,6 @@ export class DisplayVideoInfo implements OnInit, OnChanges {
   }
 
   ngOnChanges(){
-    console.log(this.videoData);
   }
 
 }
