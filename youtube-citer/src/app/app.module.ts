@@ -11,13 +11,15 @@ import { DisplayVideoInfo } from './citation-form/display-video-info/display-vid
 import { DisplayCitation } from './citation-form/display-citation/display-citation.component';
 import { CitationStylesService } from './shared/citation-styles.service';
 import { RegexService } from './shared/regex-service.helper';
+import { CopyClipboardDirective } from './shared/copy-clipboard.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     CitationFormComponent,
     DisplayVideoInfo,
-    DisplayCitation
+    DisplayCitation,
+    CopyClipboardDirective
   ],
   imports: [
     BrowserModule,
@@ -25,6 +27,9 @@ import { RegexService } from './shared/regex-service.helper';
     FormsModule,
     HttpClientModule,
     CommonModule
+  ],
+  exports: [
+    CopyClipboardDirective
   ],
   providers: [YoutubeDataAPI, CitationStylesService, RegexService],
   bootstrap: [AppComponent]

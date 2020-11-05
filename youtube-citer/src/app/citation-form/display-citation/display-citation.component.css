@@ -1,0 +1,15 @@
+.card-body p {
+    font-family: 'Times New Roman', Times, serif;
+}
+
+button {
+    background-color: #025D8C;
+    color: white;
+    border-color: #2A8FBD;
+    padding: 10px 2rem 10px 2rem;
+}
+
+button:hover {
+    background-color: #2A8FBD;
+    border-color: #BAE4E5;
+}

@@ -27,7 +27,11 @@
     Youtube Link was Invalid. Enter a valid Youtube URL
 </div>
 
-<div class="video-info" *ngIf="match">
-    <app-display-video-info *ngIf="match" [videoData]="videoData"></app-display-video-info>
-    <app-display-citation [videoData]="videoData" [style]="style"></app-display-citation>
+<div class="row mt-3" *ngIf="match">
+    <div class="col-lg-4">
+        <app-display-video-info *ngIf="match" [videoData]="videoData"></app-display-video-info>
+    </div>
+    <div class="col-md-8">
+        <app-display-citation [videoData]="videoData" [style]="style"></app-display-citation>
+    </div>
 </div>
