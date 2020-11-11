@@ -19,7 +19,6 @@ export class CitationFormComponent implements OnInit {
   id: string;
   link: string;
   match: boolean = null;
-  citation: string;
   style: string;
 
   constructor(public service: YoutubeDataAPI,
@@ -28,21 +27,24 @@ export class CitationFormComponent implements OnInit {
     public fb: FormBuilder) {
    }
 
+   //Form submission
   onSubmit() {
+    //Invalid form breaks out of function
     if(this.submitForm.invalid) {
       return;
     }
     this.match = this.regexService.isValidURL(this.submitForm.value.link);
 
+    //No match breaks out of function
     if(this.match == false){
       return;
     }
-    this.id = this.findVideoId(this.submitForm.value.link);
+    this.id = this.findVideoId(this.submitForm.value.link); //finds video id of the url link
     this.style = this.submitForm.value.citationStyle;
-    console.log(this.submitForm)
     this.getVideoInfo(this.id);
   }
 
+  // Finds the video information from API
   getVideoInfo(id: string){
     this.service.getVideoInfo(id).subscribe(info => {
       this.videoData = info;      
@@ -54,15 +56,16 @@ export class CitationFormComponent implements OnInit {
       this.videoData.lastAccessed = new Date;
       this.videoData.contentDetails.duration = this.getTimestamp(moment.duration(this.videoData.contentDetails.duration).asMilliseconds());
       this.videoData.link = this.submitForm.value.link;
-      this.getCitation(this.submitForm.value.citationStyle);
     }
     )
   }
 
+  //This initiates the list of citation styles
   getCitationStyles(){
     this.citationStyles = this.citationService.getCitationStyles();
   }
 
+  //This creates the form
   private createForm(){
     this.submitForm = this.fb.group({
       citationStyle: [null, Validators.required],
@@ -80,6 +83,7 @@ export class CitationFormComponent implements OnInit {
     return id;
   }
 
+  //This gives the video total time length
   private getTimestamp(milliseconds: number){
     var minutesStr: string;
     var secondsStr: string;
@@ -99,10 +103,6 @@ export class CitationFormComponent implements OnInit {
       return hours + ":" + minutesStr + ":" + secondsStr;
     }
     return minutes + ":" + secondsStr;
-  }
-
-  getCitation(style: string) {
-    this.citation = this.citationService.getCitationStyleFormat(style, this.videoData);
   }
 
   ngOnInit(): void {
